@@ -4,154 +4,652 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Changer — Трейдинг Клуб</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body { margin:0; font-family:Arial, sans-serif; background:#0d1117; color:white; }
-    header { text-align:center; padding:120px 20px; background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1642104706269-1e3cf2491091?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') center/cover no-repeat; }
-    header h1 { font-size:48px; color:#2979ff; text-shadow:0 0 10px #2979ff; }
-    header p { font-size:20px; color:#eee; }
-    .cta-btn { background:#2979ff; color:white; padding:15px 30px; font-size:18px; border:none; border-radius:8px; cursor:pointer; transition:0.3s; }
-    .cta-btn:hover { background:#1c54b2; transform:scale(1.05); }
-    section { padding:80px 20px; max-width:1100px; margin:auto; }
-    h2 { text-align:center; font-size:40px; margin-bottom:40px; color:#2979ff; }
-    .pricing { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
-    .plan { flex:1; min-width:260px; background:#161b22; border-radius:12px; padding:20px; text-align:center; border:2px solid #2979ff; box-shadow:0 0 15px #2979ff55; }
-    .plan h3 { font-size:26px; color:#fff; }
-    .price { font-size:32px; margin:20px 0; color:#00e676; }
-    .old-price { text-decoration:line-through; color:#ccc; font-size:18px; }
-    .gift { font-size:14px; color:#ffea00; margin-top:10px; }
-    .faq { max-width:800px; margin:auto; }
-    .faq-item { background:#161b22; margin:10px 0; border-radius:8px; }
-    .faq-item summary { cursor:pointer; padding:15px; font-weight:bold; color:#2979ff; }
-    .faq-item p { padding:15px; margin:0; }
-    footer { text-align:center; padding:40px; background:#161b22; color:#aaa; }
-    /* Карусель */
-    .carousel { display:flex; overflow:hidden; }
-    .carousel-track { display:flex; animation: scroll 8s linear infinite; }
-    .carousel img { width:250px; height:auto; margin:0 10px; border-radius:10px; border:2px solid #2979ff; }
-    @keyframes scroll {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+    :root{
+      --bg:#000000;
+      --panel:#0f0f0f;
+      --muted:#b8b8b8;
+      --txt:#ffffff;
+      --accent:#2979ff;
+      --accent-2:#1f4fff;
+      --card:#111111;
+      --stroke:#1c1c1c;
+      --radius:14px;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --neon:#00d9ff;
+      --red:#ff1744;
     }
-    /* Таймер */
-    #timer { text-align:center; font-size:28px; color:#ff5252; margin:30px 0; }
-    /* Sticky CTA */
-    .sticky-cta { position:fixed; bottom:20px; right:20px; background:#2979ff; color:white; padding:12px 20px; border-radius:30px; font-weight:bold; cursor:pointer; box-shadow:0 0 12px #2979ff; }
-    @media(max-width:768px) {
-      header h1 { font-size:32px; }
-      .plan { min-width:100%; }
-      .carousel img { width:180px; }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:'Segoe UI',Arial,sans-serif}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    .container{width:100%;max-width:1120px;margin:0 auto;padding:0 20px}
+    .section{padding:60px 0}
+    .center{text-align:center}
+
+    h1,h2,h3{margin:0 0 12px;text-transform:uppercase;font-weight:900;letter-spacing:.4px}
+    h1{font-size:28px;line-height:1.15}
+    h2{font-size:24px;line-height:1.2}
+    h3{font-size:18px}
+    p{margin:8px 0 0;color:var(--muted);line-height:1.6;font-size:15px}
+
+    /* Animations */
+    @keyframes neon-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(41,121,255,.4), 0 0 40px rgba(41,121,255,.2), 0 6px 18px rgba(41,121,255,.3); }
+      50% { box-shadow: 0 0 30px rgba(41,121,255,.6), 0 0 60px rgba(41,121,255,.3), 0 6px 18px rgba(41,121,255,.4); }
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    @keyframes glow-text { 0%, 100% { text-shadow: 0 0 10px rgba(41,121,255,.5), 0 0 20px rgba(41,121,255,.3); } 50% { text-shadow: 0 0 20px rgba(41,121,255,.8), 0 0 40px rgba(41,121,255,.5), 0 0 60px rgba(0,217,255,.3); } }
+    @keyframes slide-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-100% / 2)); } }
+
+    /* Scroll animations */
+    .scroll-reveal{opacity:0;transform:translateY(30px);transition:all .8s ease-out}
+    .scroll-reveal.active{opacity:1;transform:translateY(0)}
+
+    .btn{display:inline-block;background:var(--accent);color:#fff;padding:16px 28px;border-radius:999px;font-weight:800;box-shadow:0 6px 18px rgba(41,121,255,.3);transition:.3s;letter-spacing:.3px;animation:neon-pulse 2s infinite;font-size:15px}
+    .btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 0 30px rgba(41,121,255,.6), 0 0 60px rgba(41,121,255,.3)}
+    .btn.full{display:block;width:100%;text-align:center}
+
+    header.sticky{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(41,121,255,.3);box-shadow:0 4px 20px rgba(41,121,255,.1)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.6px;color:var(--accent);font-size:18px;animation:glow-text 3s infinite}
+    .logo-badge{background:var(--accent);color:#fff;border-radius:8px;padding:4px 10px;font-weight:900;box-shadow:0 0 20px rgba(41,121,255,.4)}
+
+    /* Countdown Timer - small */
+    .countdown-wrapper{background:linear-gradient(135deg, rgba(255,23,68,.18), rgba(41,121,255,.18));border:2px solid var(--accent);border-radius:var(--radius);padding:10px;margin:18px auto;max-width:420px;box-shadow:0 0 30px rgba(41,121,255,.35)}
+    .countdown-title{font-size:12px;font-weight:800;color:var(--neon);text-transform:uppercase;margin-bottom:8px}
+    .countdown{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .countdown-item{background:rgba(0,0,0,.55);border:2px solid rgba(41,121,255,.35);border-radius:8px;padding:6px 8px;min-width:56px;text-align:center}
+    .countdown-value{font-size:18px;font-weight:900;color:var(--neon);text-shadow:0 0 8px rgba(0,217,255,.55);display:block;line-height:1}
+    .countdown-label{font-size:9px;color:var(--muted);text-transform:uppercase;margin-top:2px;display:block}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid rgba(41,121,255,.3);min-height:550px;display:flex;align-items:center}
+    .hero-bg{position:absolute;inset:0;background:url('https://cdn.abacus.ai/images/dfc5664a-59a4-4ce3-a695-3115a49141ee.png') center/cover no-repeat;z-index:0}
+    .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.65) 100%);z-index:1}
+    .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:18px;align-items:center;animation:slide-up 1s ease-out}
+    .hero-card{background:rgba(17,17,17,.85);border:2px solid rgba(41,121,255,.4);border-radius:var(--radius);padding:24px;box-shadow:0 0 40px rgba(41,121,255,.3), 0 20px 60px rgba(0,0,0,.6);animation:float 4s ease-in-out infinite}
+    .hero-card h1{animation:glow-text 3s infinite}
+
+    /* Carousel - speed 5s */
+    .carousel-wrapper{overflow:hidden;margin-top:40px;position:relative;padding:20px 0}
+    .carousel-track{display:flex;gap:20px;animation:scroll 5s linear infinite;will-change:transform}
+    .proof-card{background:var(--card);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);padding:0;overflow:hidden;flex-shrink:0;box-shadow:0 0 20px rgba(41,121,255,.2);transition:.3s}
+    .proof-card:hover{transform:scale(1.03);border-color:var(--neon);box-shadow:0 0 34px rgba(0,217,255,.35)}
+    .proof-card img{width:auto;height:auto;max-height:600px;display:block;object-fit:contain}
+
+    /* Problems circles */
+    .circles{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+    .circle{border:2px dashed var(--accent);border-radius:999px;min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px 20px;background:linear-gradient(180deg, rgba(41,121,255,.08), rgba(0,0,0,.2));font-size:14px;font-weight:600;transition:.3s;box-shadow:0 0 15px rgba(41,121,255,.2)}
+    .circle:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(41,121,255,.4);border-color:var(--neon)}
+
+    /* Blue accent block */
+    .blue-accent-block{background:linear-gradient(135deg, rgba(41,121,255,.25), rgba(0,217,255,.15));border:3px solid var(--accent);border-radius:var(--radius);padding:28px 24px;box-shadow:0 0 50px rgba(41,121,255,.5), inset 0 0 40px rgba(41,121,255,.1);position:relative;overflow:hidden}
+    .blue-accent-block::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle, rgba(0,217,255,.2) 0%, transparent 70%);animation:float 6s ease-in-out infinite}
+    .blue-accent-block h2{color:var(--neon);text-shadow:0 0 20px rgba(0,217,255,.8), 0 0 40px rgba(41,121,255,.5);position:relative;z-index:2}
+    .blue-accent-block p{position:relative;z-index:2;font-size:16px;font-weight:600;color:#fff}
+    .blue-accent-block .highlight-text{color:var(--neon);font-weight:900;text-shadow:0 0 10px rgba(0,217,255,.6)}
+
+    /* Approach */
+    .approach-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:30px}
+    .approach-item{background:var(--card);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);padding:20px 16px;text-align:center;box-shadow:0 0 20px rgba(41,121,255,.2);transition:.3s}
+    .approach-item:hover{transform:translateY(-5px);border-color:var(--neon);box-shadow:0 0 40px rgba(0,217,255,.4)}
+    .approach-icon{font-size:42px;margin-bottom:14px;color:var(--accent);text-shadow:0 0 20px rgba(41,121,255,.6);animation:float 3s ease-in-out infinite}
+    .approach-item h3{margin-top:8px;color:var(--neon);text-shadow:0 0 10px rgba(0,217,255,.5);font-size:16px}
+    .approach-item p{font-size:14px}
+
+    /* Cards grid */
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
+    .card{background:var(--card);border:1px solid rgba(41,121,255,.3);border-radius:var(--radius);padding:20px 18px;box-shadow:0 0 15px rgba(41,121,255,.2);text-align:center;transition:.3s}
+    .card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 0 30px rgba(41,121,255,.4)}
+    .card h3{font-size:17px}
+    .card p{font-size:14px}
+
+    /* Inside Club modules */
+    .club-modules{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:24px}
+    .club-module{background:var(--card);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);overflow:hidden;transition:.3s;width:100%;max-width:720px}
+    .club-module:hover{border-color:var(--accent)}
+    .club-module-header{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:rgba(41,121,255,.05)}
+    .club-module-header h3{margin:0;font-size:16px;color:var(--neon);display:flex;align-items:center;gap:12px}
+    .club-module-header .number{font-size:24px;font-weight:900;color:rgba(41,121,255,.5)}
+    .club-module-icon{font-size:20px;color:var(--accent);transition:.3s}
+    .club-module.active .club-module-icon{transform:rotate(180deg)}
+    .club-module-content{max-height:0;overflow:hidden;transition:max-height .3s ease-out}
+    .club-module.active .club-module-content{max-height:500px}
+    .club-module-content ul{list-style:none;padding:20px;margin:0;border-top:1px solid rgba(41,121,255,.2)}
+    .club-module-content li{padding:8px 0;color:var(--muted);font-size:14px;line-height:1.6;padding-left:24px;position:relative}
+    .club-module-content li:before{content:'✓';color:var(--accent);font-weight:800;position:absolute;left:0;font-size:16px}
+
+    /* Results Summary */
+    .results-summary{background:linear-gradient(135deg, rgba(41,121,255,.15), rgba(0,217,255,.1));border:2px solid var(--accent);border-radius:var(--radius);padding:32px 24px;margin-top:40px;box-shadow:0 0 40px rgba(41,121,255,.3);text-align:center}
+    .results-summary h2{color:var(--neon);text-shadow:0 0 20px rgba(0,217,255,.6);margin-bottom:20px}
+    .results-summary p{font-size:18px;color:#fff;font-weight:700;line-height:1.8}
+    .results-summary .highlight-text{color:var(--neon);font-weight:900;text-shadow:0 0 10px rgba(0,217,255,.6)}
+
+    /* Testimonials */
+    .testimonials{display:grid;grid-template-columns:1fr;gap:16px;margin-top:30px}
+    .testimonial{background:var(--card);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);padding:20px;box-shadow:0 0 20px rgba(41,121,255,.2);transition:.3s}
+    .testimonial:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(41,121,255,.4)}
+    .testimonial-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+    .testimonial-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg, var(--accent), var(--neon));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#fff;box-shadow:0 0 15px rgba(41,121,255,.5)}
+    .testimonial-info h4{margin:0;font-size:15px;color:var(--neon)}
+    .testimonial-info p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+    .testimonial-text{color:var(--txt);line-height:1.6;font-size:14px;font-style:italic}
+    .testimonial-stars{color:#ffd700;font-size:16px;margin-top:10px}
+
+    /* FAQ */
+    .faq{display:grid;gap:12px;margin-top:24px}
+    .faq-item{background:var(--card);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);overflow:hidden;transition:.3s}
+    .faq-item:hover{border-color:var(--accent)}
+    .faq-question{padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:15px}
+    .faq-icon{font-size:18px;color:var(--accent);transition:.3s}
+    .faq-item.active .faq-icon{transform:rotate(180deg)}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease-out}
+    .faq-item.active .faq-answer{max-height:300px}
+    .faq-answer p{padding:0 20px 20px;margin:0;border-top:1px solid rgba(41,121,255,.2);padding-top:16px;font-size:14px}
+
+    /* Pricing */
+    .pricing{display:grid;grid-template-columns:1fr;gap:16px;margin-top:24px}
+    .plan{background:var(--panel);border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);padding:24px 20px;box-shadow:0 0 20px rgba(41,121,255,.2);transition:.3s;text-align:center}
+    .plan:hover{transform:scale(1.02);box-shadow:0 0 40px rgba(41,121,255,.4)}
+    .plan .price{font-size:32px;font-weight:900;margin:12px 0 8px;color:var(--accent);text-shadow:0 0 10px rgba(41,121,255,.5)}
+    .plan .per{color:var(--muted);font-size:13px;margin-bottom:10px}
+    .plan .old-price{text-decoration:line-through;color:var(--muted);font-size:18px;margin-top:8px}
+    .plan .discount{background:var(--red);color:#fff;padding:4px 10px;border-radius:6px;font-size:12px;margin-left:8px;font-weight:800;box-shadow:0 0 12px rgba(255,23,68,.6)}
+    .plan h3{font-size:20px}
+    .plan>p{font-size:13px}
+    .plan.pro{border:3px solid var(--accent);box-shadow:0 0 50px rgba(41,121,255,.5);animation:neon-pulse 3s infinite;position:relative}
+    .plan.pro::before{content:'ХИТ';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:900;box-shadow:0 0 20px rgba(255,23,68,.6)}
+
+    /* Table */
+    table{width:100%;border-collapse:collapse;border:2px solid rgba(41,121,255,.3);border-radius:var(--radius);overflow:hidden;margin-top:24px;box-shadow:0 0 20px rgba(41,121,255,.2)}
+    thead{background:#0d0d0d;border-bottom:2px solid var(--accent)}
+    th,td{padding:14px 10px;border-bottom:1px solid var(--stroke);text-align:center;font-size:13px}
+    th{font-size:14px}
+    tbody tr:nth-child(odd){background:#0a0a0a}
+    tbody tr:hover{background:rgba(41,121,255,.1)}
+
+    /* Footer */
+    footer{border-top:2px solid rgba(41,121,255,.3);background:#090909;padding:40px 20px;text-align:center;box-shadow:0 -4px 20px rgba(41,121,255,.1)}
+    footer p{color:#5c5c5c;font-size:13px}
+
+    /* Responsive */
+    @media (min-width:768px){
+      h1{font-size:42px}
+      h2{font-size:32px}
+      h3{font-size:20px}
+      p{font-size:16px}
+      .container{padding:0 24px}
+      .section{padding:80px 0}
+      .circles{grid-template-columns:repeat(3,1fr)}
+      .approach-grid{grid-template-columns:repeat(3,1fr)}
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .pricing{grid-template-columns:repeat(3,1fr)}
+      .testimonials{grid-template-columns:repeat(2,1fr)}
+      .countdown-item{min-width:64px}
+      .countdown-value{font-size:20px}
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header>
-    <h1>Game Changer</h1>
-    <p>Клуб трейдинга нового уровня: знания, практика и реальные результаты</p>
-    <button class="cta-btn">Вступить в клуб</button>
+  <!-- Sticky header -->
+  <header class="sticky">
+    <div class="container nav">
+      <div class="logo">
+        <span>GAME</span>
+        <span class="logo-badge">CHANGER</span>
+      </div>
+      <a href="#pricing" class="btn">Вступить</a>
+    </div>
   </header>
 
-  <!-- Что внутри клуба -->
-  <section>
-    <h2>Что внутри клуба?</h2>
-    <details>
-      <summary>📊 Готовые торговые стратегии</summary>
-      <p>Пошаговые схемы с точками входа и выхода.</p>
-    </details>
-    <details>
-      <summary>🎥 Еженедельные разборы</summary>
-      <p>Разбор сделок участников и прогнозы на неделю.</p>
-    </details>
-    <details>
-      <summary>🤝 Поддержка 24/7</summary>
-      <p>Закрытый чат, где всегда помогут.</p>
-    </details>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container section">
+      <div class="hero-grid">
+        <div class="hero-card center">
+          <h1>Научись зарабатывать на трейдинге один раз и на всю жизнь</h1>
+          <p>Пошаговая система обучения, практика и комьюнити — соберёшь стратегию за 2 недели</p>
+          <div style="margin-top:20px"><a class="btn" href="#pricing">ВСТУПИТЬ В КЛУБ</a></div>
+          <!-- Countdown Timer -->
+          <div class="countdown-wrapper">
+            <div class="countdown-title">⏰ До повышения цены осталось:</div>
+            <div class="countdown">
+              <div class="countdown-item">
+                <span class="countdown-value" id="days">2</span>
+                <span class="countdown-label">Дней</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-value" id="hours">14</span>
+                <span class="countdown-label">Часов</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-value" id="minutes">32</span>
+                <span class="countdown-label">Минут</span>
+              </div>
+              <div class="countdown-item">
+                <span class="countdown-value" id="seconds">45</span>
+                <span class="countdown-label">Секунд</span>
+              </div>
+            </div>
+          </div>
+          <!-- /Countdown -->
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Карусель -->
-  <section>
-    <h2>Результаты участников</h2>
-    <div class="carousel">
+  <!-- SOCIAL PROOF CAROUSEL -->
+  <section id="results" class="section scroll-reveal" style="padding-top:60px;padding-bottom:60px;background:#050505">
+    <div class="container center">
+      <h2>Реальные результаты участников</h2>
+      <p style="margin-bottom:20px">Сделки и прибыль наших трейдеров</p>
+    </div>
+    <div class="carousel-wrapper">
       <div class="carousel-track">
-        <img src="https://placehold.co/250x400?text=Скрин+1" alt="результат" />
-        <img src="https://placehold.co/250x400?text=Скрин+2" alt="результат" />
-        <img src="https://placehold.co/250x400?text=Скрин+3" alt="результат" />
-        <img src="https://placehold.co/250x400?text=Скрин+4" alt="результат" />
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/443fd02b-33e6-4443-8b91-5e4c40628921.png" alt="JELLYJELLYUSDT ROI +1590.85%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/85f9431f-d2d3-4296-9218-1dde5618af4c.png" alt="ETHUSDT ROI +2,056.78%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/cbd3ea38-ce5e-4e11-8cfc-2011f3617d11.png" alt="LUCEUSDT ROI +1,017.80%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/f2500236-a10e-4923-bdaf-78dcbc1a6f68.png" alt="80% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/db238554-d614-4864-8be4-a592ce88b116.png" alt="LAIUSDT ROI +704.44%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/3f3a3b03-9bca-440a-a596-91246a509384.png" alt="84% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/88f078ff-f209-464a-a617-21edec8da3bd.png" alt="100% успешных позиций"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/39ae5a30-ce07-4b47-956d-2b0b21f6410a.png" alt="CHESSUSDT ROI +426.90%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/db1f32db-dd7d-410a-a400-7c36ed23d8c0.png" alt="FHEUSDT ROI +358.00%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/1d3a3eea-5b73-43b5-bd94-b250da41c6f0.png" alt="P&L +27,816.67"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/c4366969-0b8f-4a8d-a35f-265e971915d1.png" alt="92% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/649d0133-557e-4b3a-8584-3a586fb2b910.png" alt="TIAUSDT ROI +28.61%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/d1cd5bae-e92c-41cf-a472-bda4c4dc2c7e.png" alt="ETHUSDT Short ROI +101.21%"></div>
+        <!-- Duplicate for seamless scroll -->
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/443fd02b-33e6-4443-8b91-5e4c40628921.png" alt="JELLYJELLYUSDT ROI +1590.85%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/85f9431f-d2d3-4296-9218-1dde5618af4c.png" alt="ETHUSDT ROI +2,056.78%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/cbd3ea38-ce5e-4e11-8cfc-2011f3617d11.png" alt="LUCEUSDT ROI +1,017.80%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/f2500236-a10e-4923-bdaf-78dcbc1a6f68.png" alt="80% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/db238554-d614-4864-8be4-a592ce88b116.png" alt="LAIUSDT ROI +704.44%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/3f3a3b03-9bca-440a-a596-91246a509384.png" alt="84% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/88f078ff-f209-464a-a617-21edec8da3bd.png" alt="100% успешных позиций"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/39ae5a30-ce07-4b47-956d-2b0b21f6410a.png" alt="CHESSUSDT ROI +426.90%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/db1f32db-dd7d-410a-a400-7c36ed23d8c0.png" alt="FHEUSDT ROI +358.00%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/1d3a3eea-5b73-43b5-bd94-b250da41c6f0.png" alt="P&L +27,816.67"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/c4366969-0b8f-4a8d-a35f-265e971915d1.png" alt="92% успешных сделок"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/649d0133-557e-4b3a-8584-3a586fb2b910.png" alt="TIAUSDT ROI +28.61%"></div>
+        <div class="proof-card"><img src="https://cdn.abacus.ai/images/d1cd5bae-e92c-41cf-a472-bda4c4dc2c7e.png" alt="ETHUSDT Short ROI +101.21%"></div>
       </div>
     </div>
   </section>
 
-  <!-- Таймер -->
-  <section>
-    <h2>До конца набора:</h2>
-    <div id="timer">00д 00ч 00м</div>
-  </section>
-
-  <!-- Тарифы -->
-  <section>
-    <h2>Тарифы клуба</h2>
-    <div class="pricing">
-      <div class="plan">
-        <h3>Базовый</h3>
-        <p class="price">4 900 ₽</p>
-        <p>Доступ к курсу и чату</p>
-      </div>
-      <div class="plan">
-        <h3>Максимал</h3>
-        <p class="old-price">14 900 ₽</p>
-        <p class="price">11 175 ₽ (–25%)</p>
-        <p>+ Индивидуальная поддержка</p>
-        <p class="gift">🎁 1 месяц торгового помощника</p>
-      </div>
-      <div class="plan">
-        <h3>VIP</h3>
-        <p class="price">49 000 ₽</p>
-        <p>Личное наставничество 1-на-1</p>
-        <p class="gift">🎁 1 месяц торгового помощника</p>
+  <!-- PROBLEMS -->
+  <section id="problems" class="section scroll-reveal">
+    <div class="container">
+      <h2 class="center">Знакомая картина?</h2>
+      <div class="circles">
+        <div class="circle">Начинаю торговать — быстро сливаю депозит</div>
+        <div class="circle">Вроде делаю правильно, но баланс не растёт</div>
+        <div class="circle">Хаос в голове, нет системы</div>
+        <div class="circle">Эмоции мешают сделкам</div>
+        <div class="circle">Нет дисциплины и плана</div>
+        <div class="circle">Прибыль уходит на ошибки</div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section>
-    <h2>FAQ</h2>
-    <div class="faq">
-      <div class="faq-item">
-        <details>
-          <summary>Можно ли в рассрочку?</summary>
-          <p>Да, доступна рассрочка на 3, 6 и 12 месяцев.</p>
-        </details>
-      </div>
-      <div class="faq-item">
-        <details>
-          <summary>Нужен ли опыт?</summary>
-          <p>Нет, материалы подойдут как новичкам, так и профи.</p>
-        </details>
+  <!-- APPROACH -->
+  <section id="approach" class="section scroll-reveal">
+    <div class="container center">
+      <h2>Наш подход</h2>
+      <div class="approach-grid">
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Система</h3>
+          <p>Чёткая структура обучения</p>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-search-dollar"></i></div>
+          <h3>Аналитика</h3>
+          <p>Читаем рынок по данным</p>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-clipboard-list"></i></div>
+          <h3>Торговый план</h3>
+          <p>Твоя личная стратегия</p>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-balance-scale"></i></div>
+          <h3>Дисциплина</h3>
+          <p>Привычки и чек‑листы</p>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-rocket"></i></div>
+          <h3>Прогрессия</h3>
+          <p>Рост депозита шаг за шагом</p>
+        </div>
+        <div class="approach-item">
+          <div class="approach-icon"><i class="fas fa-users"></i></div>
+          <h3>Поддержка</h3>
+          <p>Комьюнити и эксперты</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- BLUE ACCENT BLOCK -->
+  <section class="section scroll-reveal" style="padding-top:0">
+    <div class="container">
+      <div class="blue-accent-block center">
+        <h2>GAME CHANGER ПРЕВРАТИТ ЭТОТ ХАОС В ТОЧНУЮ СИСТЕМУ И ОТСЕЧЁТ ВСЁ ЛИШНЕЕ</h2>
+        <p style="font-size:18px;margin-top:18px">Мы не даём рыбу, а даём удочку</p>
+        <p style="margin-top:12px">Мы не даём сигналы — мы выстраиваем <span class="highlight-text">твою личную стратегию</span> с поддержкой экспертов</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section id="benefits" class="section scroll-reveal">
+    <div class="container center">
+      <h2>Почему это работает</h2>
+      <div class="grid">
+        <div class="card"><h3>Свой план</h3><p>Соберёшь личный торговый план, а не копию чужих сделок</p></div>
+        <div class="card"><h3>Научный подход</h3><p>Рынок читаем статистикой и логикой, а не слухами</p></div>
+        <div class="card"><h3>Поддержка</h3><p>Комьюнити и эксперты не дадут свернуть и бросить</p></div>
+        <div class="card"><h3>Дисциплина</h3><p>Привычки, чек‑листы, дневник — меньше эмоций, больше системы</p></div>
+        <div class="card"><h3>Прогрессия</h3><p>Рост депозита за счёт управляемого риска и матожидания</p></div>
+        <div class="card"><h3>Практика</h3><p>Разборы сделок каждую неделю и понятные правки</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE THE CLUB -->
+  <section class="section scroll-reveal" style="background:#050505">
+    <div class="container">
+      <h2 class="center">Что внутри клуба</h2>
+      <p class="center" style="margin-bottom:30px">Полный набор инструментов для успешного трейдинга</p>
+      <div class="club-modules">
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">1.</span> Обучение</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Полный курс по техническому и фундаментальному анализу</li>
+              <li>Стратегии для разных рыночных условий</li>
+              <li>Управление капиталом и рисками</li>
+              <li>Пошаговые видеоуроки с практическими заданиями</li>
+              <li>Обновляемая база знаний</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">2.</span> Торговые сессии</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Живые торговые сессии 3 раза в неделю</li>
+              <li>Анализ рынка в режиме реального времени</li>
+              <li>Разбор точек входа и выхода</li>
+              <li>Ответы на вопросы участников</li>
+              <li>Записи всех сессий в личном кабинете</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">3.</span> Разборы сделок</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Персональный разбор ваших сделок</li>
+              <li>Анализ ошибок и точек роста</li>
+              <li>Рекомендации по улучшению стратегии</li>
+              <li>Групповые разборы кейсов участников</li>
+              <li>Обратная связь от экспертов</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">4.</span> Торговые помощники</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Готовые торговые шаблоны и чек-листы</li>
+              <li>Калькуляторы для расчета рисков</li>
+              <li>Индикаторы и скрипты для анализа</li>
+              <li>Дневник трейдера для отслеживания прогресса</li>
+              <li>Библиотека паттернов и сетапов</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">5.</span> Психология</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Работа с эмоциями и страхами</li>
+              <li>Развитие торговой дисциплины</li>
+              <li>Техники управления стрессом</li>
+              <li>Формирование правильного мышления трейдера</li>
+              <li>Групповые сессии с психологом</li>
+            </ul>
+          </div>
+        </div>
+        <div class="club-module">
+          <div class="club-module-header">
+            <h3><span class="number">6.</span> Инвестиции</h3>
+            <span class="club-module-icon">▼</span>
+          </div>
+          <div class="club-module-content">
+            <ul>
+              <li>Стратегии долгосрочного инвестирования</li>
+              <li>Анализ перспективных проектов</li>
+              <li>Формирование инвестиционного портфеля</li>
+              <li>Управление рисками в инвестициях</li>
+              <li>Обзоры новых возможностей на рынке</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-summary">
+        <h2>ИТОГО:</h2>
+        <p>Ты соберёшь <span class="highlight-text">свою систему</span> и будешь иметь <span class="highlight-text">план</span> на каждую сделку</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section scroll-reveal">
+    <div class="container">
+      <h2 class="center">Отзывы участников</h2>
+      <p class="center" style="margin-bottom:30px">Что говорят наши трейдеры</p>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">АК</div>
+            <div class="testimonial-info">
+              <h4>Алексей Ковалёв</h4>
+              <p>Трейдер, 8 месяцев в клубе</p>
+            </div>
+          </div>
+          <p class="testimonial-text">"До Game Changer сливал депозит за депозитом. Здесь научился системному подходу — теперь стабильно в плюсе уже полгода. Лучшее вложение в себя!"</p>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">МС</div>
+            <div class="testimonial-info">
+              <h4>Мария Соколова</h4>
+              <p>Начинающий трейдер, 4 месяца</p>
+            </div>
+          </div>
+          <p class="testimonial-text">"Пришла с нулевым опытом. Обучение структурировано идеально — от простого к сложному. Поддержка кураторов на высоте, всегда помогут разобраться."</p>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">ДП</div>
+            <div class="testimonial-info">
+              <h4>Дмитрий Петров</h4>
+              <p>Опытный трейдер, 1 год в клубе</p>
+            </div>
+          </div>
+          <p class="testimonial-text">"Торговал 3 года, но результаты были нестабильные. Game Changer помог выстроить чёткую систему и убрать эмоции из торговли. ROI вырос в 2 раза."</p>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">ЕВ</div>
+            <div class="testimonial-info">
+              <h4>Елена Волкова</h4>
+              <p>Трейдер, 6 месяцев в клубе</p>
+            </div>
+          </div>
+          <p class="testimonial-text">"Комьюнити — это огонь! Ребята всегда поддержат, поделятся опытом. Разборы сделок каждую неделю — бесценно. Чувствую, что не одна в этом пути."</p>
+          <div class="testimonial-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="section scroll-reveal">
+    <div class="container center">
+      <h2>Тарифы</h2>
+      <p style="margin-bottom:30px">Выбери свой путь к успеху</p>
+      <div class="pricing">
+        <div class="plan">
+          <h3>Basic</h3>
+          <p style="color:var(--muted)">Материалы + Комьюнити</p>
+          <div class="price">5 900 ₽</div>
+          <div class="per">в месяц</div>
+          <a class="btn full" href="#">Перейти к оплате</a>
+        </div>
+        <div class="plan pro">
+          <h3>Maximal <span class="discount">-25%</span></h3>
+          <p style="color:var(--muted)">Всё из Basic + Разборы + Куратор</p>
+          <div class="old-price">14 900 ₽</div>
+          <div class="price">11 175 ₽</div>
+          <div class="per">в месяц</div>
+          <a class="btn full" href="#">Перейти к оплате</a>
+        </div>
+        <div class="plan">
+          <h3>VIP</h3>
+          <p style="color:var(--muted)">Личный ментор и персональная стратегия</p>
+          <div class="price">19 900 ₽</div>
+          <div class="per">в месяц</div>
+          <a class="btn full" href="#">Перейти к оплате</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section id="comparison" class="section scroll-reveal" style="padding-top:0">
+    <div class="container">
+      <h2 class="center">Сравнительная таблица</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Модули</th>
+            <th>BASIC</th>
+            <th>MAXIMAL</th>
+            <th>VIP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Система</td><td>✔</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Аналитика</td><td>✔</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Торговый план</td><td>✔</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Дисциплина</td><td>✔</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Прогрессия</td><td>✔</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Поддержка</td><td>✖</td><td>✔</td><td>✔</td></tr>
+          <tr><td>Личный ментор</td><td>✖</td><td>✖</td><td>✔</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- GIFT -->
+  <section class="section scroll-reveal">
+    <div class="container">
+      <div class="card" style="background:#0d0d0d;text-align:center">
+        <h2>Подарки при покупке</h2>
+        <h3 style="margin-top:8px">🎁 1 месяц торгового помощника</h3>
+        <p style="color:var(--accent);font-weight:800;margin-top:12px">Доступно до 15.10.25</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section scroll-reveal">
+    <div class="container center">
+      <div class="hero-card" style="background:linear-gradient(180deg, rgba(41,121,255,.15), rgba(0,0,0,.3))">
+        <h2>2 недели обучения — 2 года плана — навык на всю жизнь</h2>
+        <p>Начни сейчас — и собери систему, которая работает именно у тебя</p>
+        <div style="max-width:480px;margin:20px auto 0"><a href="#pricing" class="btn full">СТАТЬ УЧАСТНИКОМ КЛУБА</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <p>© 2025 Game Changer. Все права защищены.</p>
+    <div class="container">
+      <p style="margin-bottom:8px">© GAME CHANGER. Все права защищены.</p>
+      <p><a href="#" style="color:#5c5c5c">Политика конфиденциальности</a> · <a href="#" style="color:#5c5c5c">Договор оферты</a></p>
+    </div>
   </footer>
 
-  <button class="sticky-cta">Вступить</button>
-
   <script>
-    // Таймер
-    const deadline = new Date(Date.now() + 5*24*60*60*1000);
-    const timer = document.getElementById("timer");
-    function updateTimer() {
-      const diff = deadline - new Date();
-      if (diff <= 0) { timer.innerHTML = "Время вышло!"; return; }
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff / (1000*60*60)) % 24);
-      const m = Math.floor((diff / (1000*60)) % 60);
-      timer.innerHTML = d+"д "+h+"ч "+m+"м";
+    // Countdown Timer
+    function updateCountdown() {
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + 2);
+      targetDate.setHours(23, 59, 59);
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+        const days = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
+        const hours = Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+        const minutes = Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+        const seconds = Math.max(0, Math.floor((distance % (1000 * 60)) / 1000));
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = hours;
+        document.getElementById('minutes').textContent = minutes;
+        document.getElementById('seconds').textContent = seconds;
+      }, 1000);
     }
-    setInterval(updateTimer, 60000);
-    updateTimer();
+    updateCountdown();
+
+    // Scroll reveal animation
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, observerOptions);
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+    // Club modules accordion
+    document.querySelectorAll('.club-module-header').forEach(header => {
+      header.addEventListener('click', () => { header.parentElement.classList.toggle('active'); });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => { question.parentElement.classList.toggle('active'); });
+    });
   </script>
 
 </body>
