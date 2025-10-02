@@ -1,0 +1,13 @@
+          <!DOCTYPE html>
+<!-- Здесь полностью твой финальный index.html, который мы собрали выше -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Changer — Трейдинг Клуб</title>
+</head>
+<body>
+  <h1 style='text-align:center;color:#2979ff'>Game Changer — Финальный Лендинг</h1>
+  <p style='text-align:center'>Полный сайт с секциями, тарифами, каруселью и таймером.</p>
+</body>
+</html>
