@@ -1,13 +1,158 @@
 <!DOCTYPE html>
-<!-- Здесь полностью твой финальный index.html, который мы собрали выше -->
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Changer — Трейдинг Клуб</title>
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#0d1117; color:white; }
+    header { text-align:center; padding:120px 20px; background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1642104706269-1e3cf2491091?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80') center/cover no-repeat; }
+    header h1 { font-size:48px; color:#2979ff; text-shadow:0 0 10px #2979ff; }
+    header p { font-size:20px; color:#eee; }
+    .cta-btn { background:#2979ff; color:white; padding:15px 30px; font-size:18px; border:none; border-radius:8px; cursor:pointer; transition:0.3s; }
+    .cta-btn:hover { background:#1c54b2; transform:scale(1.05); }
+    section { padding:80px 20px; max-width:1100px; margin:auto; }
+    h2 { text-align:center; font-size:40px; margin-bottom:40px; color:#2979ff; }
+    .pricing { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+    .plan { flex:1; min-width:260px; background:#161b22; border-radius:12px; padding:20px; text-align:center; border:2px solid #2979ff; box-shadow:0 0 15px #2979ff55; }
+    .plan h3 { font-size:26px; color:#fff; }
+    .price { font-size:32px; margin:20px 0; color:#00e676; }
+    .old-price { text-decoration:line-through; color:#ccc; font-size:18px; }
+    .gift { font-size:14px; color:#ffea00; margin-top:10px; }
+    .faq { max-width:800px; margin:auto; }
+    .faq-item { background:#161b22; margin:10px 0; border-radius:8px; }
+    .faq-item summary { cursor:pointer; padding:15px; font-weight:bold; color:#2979ff; }
+    .faq-item p { padding:15px; margin:0; }
+    footer { text-align:center; padding:40px; background:#161b22; color:#aaa; }
+    /* Карусель */
+    .carousel { display:flex; overflow:hidden; }
+    .carousel-track { display:flex; animation: scroll 8s linear infinite; }
+    .carousel img { width:250px; height:auto; margin:0 10px; border-radius:10px; border:2px solid #2979ff; }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    /* Таймер */
+    #timer { text-align:center; font-size:28px; color:#ff5252; margin:30px 0; }
+    /* Sticky CTA */
+    .sticky-cta { position:fixed; bottom:20px; right:20px; background:#2979ff; color:white; padding:12px 20px; border-radius:30px; font-weight:bold; cursor:pointer; box-shadow:0 0 12px #2979ff; }
+    @media(max-width:768px) {
+      header h1 { font-size:32px; }
+      .plan { min-width:100%; }
+      .carousel img { width:180px; }
+    }
+  </style>
 </head>
 <body>
-  <h1 style='text-align:center;color:#2979ff'>Game Changer — Финальный Лендинг</h1>
-  <p style='text-align:center'>Полный сайт с секциями, тарифами, каруселью и таймером.</p>
+
+  <!-- Hero -->
+  <header>
+    <h1>Game Changer</h1>
+    <p>Клуб трейдинга нового уровня: знания, практика и реальные результаты</p>
+    <button class="cta-btn">Вступить в клуб</button>
+  </header>
+
+  <!-- Что внутри клуба -->
+  <section>
+    <h2>Что внутри клуба?</h2>
+    <details>
+      <summary>📊 Готовые торговые стратегии</summary>
+      <p>Пошаговые схемы с точками входа и выхода.</p>
+    </details>
+    <details>
+      <summary>🎥 Еженедельные разборы</summary>
+      <p>Разбор сделок участников и прогнозы на неделю.</p>
+    </details>
+    <details>
+      <summary>🤝 Поддержка 24/7</summary>
+      <p>Закрытый чат, где всегда помогут.</p>
+    </details>
+  </section>
+
+  <!-- Карусель -->
+  <section>
+    <h2>Результаты участников</h2>
+    <div class="carousel">
+      <div class="carousel-track">
+        <img src="https://placehold.co/250x400?text=Скрин+1" alt="результат" />
+        <img src="https://placehold.co/250x400?text=Скрин+2" alt="результат" />
+        <img src="https://placehold.co/250x400?text=Скрин+3" alt="результат" />
+        <img src="https://placehold.co/250x400?text=Скрин+4" alt="результат" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Таймер -->
+  <section>
+    <h2>До конца набора:</h2>
+    <div id="timer">00д 00ч 00м</div>
+  </section>
+
+  <!-- Тарифы -->
+  <section>
+    <h2>Тарифы клуба</h2>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Базовый</h3>
+        <p class="price">4 900 ₽</p>
+        <p>Доступ к курсу и чату</p>
+      </div>
+      <div class="plan">
+        <h3>Максимал</h3>
+        <p class="old-price">14 900 ₽</p>
+        <p class="price">11 175 ₽ (–25%)</p>
+        <p>+ Индивидуальная поддержка</p>
+        <p class="gift">🎁 1 месяц торгового помощника</p>
+      </div>
+      <div class="plan">
+        <h3>VIP</h3>
+        <p class="price">49 000 ₽</p>
+        <p>Личное наставничество 1-на-1</p>
+        <p class="gift">🎁 1 месяц торгового помощника</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h2>FAQ</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <details>
+          <summary>Можно ли в рассрочку?</summary>
+          <p>Да, доступна рассрочка на 3, 6 и 12 месяцев.</p>
+        </details>
+      </div>
+      <div class="faq-item">
+        <details>
+          <summary>Нужен ли опыт?</summary>
+          <p>Нет, материалы подойдут как новичкам, так и профи.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Game Changer. Все права защищены.</p>
+  </footer>
+
+  <button class="sticky-cta">Вступить</button>
+
+  <script>
+    // Таймер
+    const deadline = new Date(Date.now() + 5*24*60*60*1000);
+    const timer = document.getElementById("timer");
+    function updateTimer() {
+      const diff = deadline - new Date();
+      if (diff <= 0) { timer.innerHTML = "Время вышло!"; return; }
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff / (1000*60*60)) % 24);
+      const m = Math.floor((diff / (1000*60)) % 60);
+      timer.innerHTML = d+"д "+h+"ч "+m+"м";
+    }
+    setInterval(updateTimer, 60000);
+    updateTimer();
+  </script>
+
 </body>
 </html>
